@@ -1,0 +1,46 @@
+languague to use: c++
+
+compiler version g++: 6.3.1 -O2 
+
+
+CPU AMD FX(tm)-8150 8-core
+x86_64
+2 thread/cord, 4 cores/socket
+1400Hz
+L1d 16K
+L1i 64K
+L2  2M
+L3 8M
+TLB size	: 1536 4K pages
+address sizes	: 48 bits physical, 48 bits virtual
+
+Memory X4
+total width/data width: 64bits
+size 4G 
+form factor: DIMM
+speed 1333 MHz
+
+
+I/O  x2
+width: 64K
+
+
+Hard disk
+=== START OF INFORMATION SECTION ===
+Model Family:     Seagate Barracuda 7200.14 (AF)
+Device Model:     ST3000DM001-1CH166
+User Capacity:    3,000,592,982,016 bytes [3.00 TB]
+Sector Sizes:     512 bytes logical, 4096 bytes physical
+Rotation Rate:    7200 rpm
+ATA Version is:   ACS-2, ACS-3 T13/2161-D revision 3b
+SATA Version is:  SATA 3.1, 6.0 Gb/s (current: 6.0 Gb/s)
+Controller cache size : unknown
+
+
+
+Network
+1000 Mb/s
+
+OS centos linux 7
+Gnome version 3.14.2
+
