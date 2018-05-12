@@ -357,7 +357,6 @@ void system_call_measure(){
 
 void process_creation_measure(){
 
-
      pid_t pid, w;
      int status;
      for(int i=0; i < N; i++){
@@ -366,19 +365,20 @@ void process_creation_measure(){
           //__asm__ volatile("movl $2, %eax\n\t"  
           //                   "syscall \n\t");
           startt = start_timer();
-          pid = vfork();   // SHOULD BE VFORK suspending the parent process  
+          pid = vfork();   // VFORK suspending the parent process, FORK does not.
           //cout << pid << endl;
           if (pid == 0){
-               endt = end_timer();
+               // endt = end_timer();
                // a context switch + process creation is forced when the child process is run (parent suspended)
                //cout << "in child"<< startt << endl;
                
                //wait(NULL);
-               //endt = end_timer();
+               endt = end_timer();
                _exit(0);
           } else{                            
                // w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
-               endt = end_timer();
+               // wait(NULL);
+               // endt = end_timer();
                durations[i] = endt - startt ;
           
           }
@@ -453,26 +453,16 @@ void pthread_creation_measure(){
      // pthread_exit(NULL);
 }
 
- uint64_t timec[11];
- uint64_t coun = 0; 
 
 void process_ctxswitch_measure(){
      pid_t pid, ppid=getpid() ;
-     
-    
-
-     for(int i=0; i < 1; i++){
+          
+     for(int i=0; i < N; i++){
           // startt = start_timer();
           // vfork creates a process and hault the parent process.
-          pid = fork();   // SHOULD BE VFORK!!!!  
-          timec[coun++] = start_timer();   
+          pid = vfork();   // SHOULD BE VFORK!!!!     
           if (pid == 0){
-               timec[coun++] = end_timer();
-               timec[coun++] = end_timer();
-               timec[coun++] = end_timer();
-               timec[coun++] = end_timer();
-               timec[coun++] = end_timer();
-
+               startt = start_timer();
                // kill(ppid, SIGUSR2);
                // sigsuspend(&sigset);
                // a context switch is forced when the child process is terminated
@@ -480,27 +470,19 @@ void process_ctxswitch_measure(){
                // return;
           } else{
                // startt = start_timer();
-              timec[coun++] = end_timer();
-              timec[coun++] = end_timer();
-              timec[coun++] = end_timer();
-              timec[coun++] = end_timer();
-              timec[coun++] = end_timer();
-               //wait(NULL);
 
-               //endt = end_timer();
+               // wait(NULL);
+
+               endt = end_timer();
                // kill(pid, SIGUSR1);
                // wait(NULL);  // wait until the child process returns
                // w = waitpid(pid, &status, WUNTRACED | WCONTINUED);               
-               //durations[i] = endt - startt ;
+               durations[i] = endt - startt ;
           }
           
-          wait(NULL);
-          for (int j = 0; j< 10; j++){
-               cout << timec[j] << endl;
-          }
      }
      for(int i = 0; i<N; i++){
-         // cout << durations[i] << endl;
+          cout << durations[i] << endl;
      }
      return ;
 }
@@ -535,8 +517,10 @@ for(int i =0; i < N; i++){
      // duration = endt - startt;
      //cout << (duration/2) << endl; // two context switches
      pthread_mutex_unlock(&mut);
-
+     // cout << " fn 1 : iter " << i << endl;
 };
+
+cond_x = 3;
 
 for(int i =0; i < N; i++){
      cout << durations[i] << endl;
@@ -550,8 +534,8 @@ for(int i =0; i < N; i++){
 
 void* t2_fn(void* some){
 
-for(int i =0; i < N; i++){
-
+// for(int i =0; i < N; i++){
+while(cond_x !=3){
      // cout << " t2 1" << endl;
      pthread_mutex_lock(&mut);
      while (cond_x != 1 ){
@@ -565,9 +549,12 @@ for(int i =0; i < N; i++){
 
 
      //cond_x++;
+     cond_x == 0 ;
      pthread_cond_signal(&cond); // inform t1 to end timer - signal 4 //
      pthread_mutex_unlock(&mut);          
-     cond_x == 0 ;
+     
+
+     // cout << " fn 2 : iter " << i << endl;
 };
      
      pthread_exit(NULL);
