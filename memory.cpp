@@ -37,7 +37,7 @@ static inline uint64_t end_timer(){
 
 int main(int argc, char * argv[]){
   int value;
-  for(int i = 0; i < 30; i++){
+  for(int i = 0; i < 300; i++){
     uint64_t startt = start_timer();
     //int * array = new int[(int)pow(2, 30)];
     //int * count = new int[5000];
@@ -46,8 +46,8 @@ int main(int argc, char * argv[]){
     long sum = 0;
     int iterations;
     int outer;
-    if(i > 10){
-      iterations = (int) pow(2, (30-i));
+    if(i > 100){
+      iterations = (int) pow(2, (30-i/10));
       outer = (int)pow(2,20)/iterations;
       //cout << "iterations: " << iterations << "outer: " << outer << endl;
     }
@@ -71,7 +71,7 @@ int main(int argc, char * argv[]){
         /*else{
           cout << "time is: " << end - start << endl;
         }*/
-        index += (int)pow(2, i);
+        index += (int)pow(2, i/10);
         //cout << "i: " << i << " and " << end - start << endl;
       
       
