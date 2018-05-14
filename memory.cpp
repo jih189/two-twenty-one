@@ -37,25 +37,59 @@ static inline uint64_t end_timer(){
 
 int main(int argc, char * argv[]){
   int value;
-  for(int i = 2; i < 31; i++){
+  for(int i = 0; i < 30; i++){
     uint64_t startt = start_timer();
-    int * array = new int[(int)pow(2, i)];
+    //int * array = new int[(int)pow(2, 30)];
+    //int * count = new int[5000];
     uint64_t endt = end_timer();
-    cout << endt - startt << endl;
-    for(int j = 0; j < 100000; j++){
-      int random = rand() % (int)pow(2,i);
-      uint64_t start = start_timer();
-      value = array[random];
-      uint64_t end = end_timer();
-      
-      //cout << "number of iterations is: " << j+1 << endl;
-      //cout << "number of elements: " << pow(2,i) << endl;
-      cout << end - start << endl;
-      //cout << "index is: " << random << endl;
-      
+    //int index = 0;
+    long sum = 0;
+    int iterations;
+    int outer;
+    if(i > 10){
+      iterations = (int) pow(2, (30-i));
+      outer = (int)pow(2,20)/iterations;
+      //cout << "iterations: " << iterations << "outer: " << outer << endl;
     }
-    delete[] array;
-  }
+    else{
+      iterations = (int)pow(2,20);
+      outer = 1;
+    }
+    for(int k = 0; k < outer; k++){
+      //cout << endt - startt << endl;
+      int * array = new int[(int)pow(2,30)];
+      int index = 0;
+      for(int j = 0; j < iterations; j++){
+        int value;
+        //int * array = new int[(int) pow(2,i)];
+        uint64_t start = start_timer();
+        value = array[index];
+        uint64_t end = end_timer();
+        if(j){
+          sum += (end - start);
+        }
+        /*else{
+          cout << "time is: " << end - start << endl;
+        }*/
+        index += (int)pow(2, i);
+        //cout << "i: " << i << " and " << end - start << endl;
+      
+      
+        //cout << "number of iterations is: " << j+1 << endl;
+        //cout << "number of elements: " << pow(2,i) << endl;
+
+        //cout << "index is: " << random << endl;
+        //delete[] array;
+      }
+      delete[] array;
+    }
+    int average = sum/(outer *(iterations-1));
+    //cout << "sum is: " << sum << " ";
+    //cout << "size of jump is: "<< (int)pow(2,i+2) << " and avg is: " << average << endl;
+    cout << average << endl;
+    //cout << (int)pow(2,i) << "\t";
+    //delete[] array;
+ }
   
   return 0;
 
