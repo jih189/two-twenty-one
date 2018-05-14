@@ -47,7 +47,7 @@ int main(int argc, char * argv[]){
     int iterations;
     int outer;
     if(i > 100){
-      iterations = (int) pow(2, (30-i/10));
+      iterations = (int) pow(2, (30-(double)i/10));
       outer = (int)pow(2,20)/iterations;
       //cout << "iterations: " << iterations << "outer: " << outer << endl;
     }
@@ -71,7 +71,7 @@ int main(int argc, char * argv[]){
         /*else{
           cout << "time is: " << end - start << endl;
         }*/
-        index += (int)pow(2, i/10);
+        index += (int)pow(2, (double)i/10);
         //cout << "i: " << i << " and " << end - start << endl;
       
       
