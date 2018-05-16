@@ -12,13 +12,14 @@
 #include <stdlib.h>
 #include <sys/wait.h>       
 #include <sys/types.h>
+#include <sys/mman.h>
 
 
 using namespace std;
 
 
 // global variable, record the start and end CPU time stampe
-uint64_t startt, endt, duration;
+static uint64_t startt, endt, duration;
 unsigned int high, low, id;
 //unsigned long flags;
 //struct sched_param params;
@@ -365,22 +366,22 @@ void process_creation_measure(){
           //__asm__ volatile("movl $2, %eax\n\t"  
           //                   "syscall \n\t");
           startt = start_timer();
-          pid = vfork();   // VFORK suspending the parent process, FORK does not.
+          // pid = vfork();   // VFORK suspending the parent process, FORK does not.
+          pid = fork();
           //cout << pid << endl;
           if (pid == 0){
                // endt = end_timer();
                // a context switch + process creation is forced when the child process is run (parent suspended)
-               //cout << "in child"<< startt << endl;
-               
+               //cout << start_timer() << endl;
                //wait(NULL);
-               endt = end_timer();
+               // endt = end_timer();
                _exit(0);
           } else{                            
                // w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
                // wait(NULL);
-               // endt = end_timer();
+               endt = end_timer();
                durations[i] = endt - startt ;
-          
+               wait(NULL);
           }
           
      };
@@ -456,28 +457,37 @@ void pthread_creation_measure(){
 
 void process_ctxswitch_measure(){
      pid_t pid, ppid=getpid() ;
-          
+     uint64_t * startt_ptr = (uint64_t*) mmap(NULL, sizeof(uint64_t), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1 ,0 );
+
+     *startt_ptr = 0;
+
      for(int i=0; i < N; i++){
           // startt = start_timer();
           // vfork creates a process and hault the parent process.
-          pid = vfork();   // SHOULD BE VFORK!!!!     
+          pid = fork();   // SHOULD BE VFORK!!!!     
           if (pid == 0){
-               startt = start_timer();
+               * startt_ptr = start_timer();
+               // cout << startt_ptr << " c : " << *startt_ptr << endl;
+
                // kill(ppid, SIGUSR2);
                // sigsuspend(&sigset);
                // a context switch is forced when the child process is terminated
+               // cout << " c i = " << i << endl;
                _exit(0);
                // return;
           } else{
                // startt = start_timer();
 
-               // wait(NULL);
-
+               wait(NULL);
+               // cout << " p i = " << i << endl;
+               // cout << startt_ptr << " p : " << *startt_ptr << " " << startt ;
+               
                endt = end_timer();
+               // cout << " " << endt << endl;
                // kill(pid, SIGUSR1);
                // wait(NULL);  // wait until the child process returns
                // w = waitpid(pid, &status, WUNTRACED | WCONTINUED);               
-               durations[i] = endt - startt ;
+               durations[i] = endt - *startt_ptr  ;
           }
           
      }
