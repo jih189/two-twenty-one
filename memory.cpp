@@ -76,7 +76,7 @@ int main(int argc, char * argv[]){
        //int * array = new int[(int) pow(2,i)];
         uint64_t start = start_timer();
 	//high_resolution_clock::time_point start = high_resolution_clock::now();
-        value = array[0];
+        value = array[index];
 	//high_resolution_clock::time_point end = high_resolution_clock::now();
         uint64_t end = end_timer();
 	if(k){
