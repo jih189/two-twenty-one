@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-#include <chrono>
+//#include <chrono>
 
-using namespace std::chrono;
+//using namespace std::chrono;
 using namespace std;
 
 uint64_t startt, endt;
@@ -45,15 +45,16 @@ int main(int argc, char * argv[]){
   start_timer();
   end_timer();
   sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
-  for(int i = 0; i < 260; i++){
+  for(int i = 0; i < 240; i++){
     uint64_t startt = start_timer();
-    int * array = new int[(int)pow(2, 30)];
+    int * array = new int[(int)pow(2, 40)];
     //int * count = new int[5000];
     uint64_t endt = end_timer();
     //int index = 0;
     long double sum = 0;
     int iterations;
     int outer;
+    int div = 0;
     /*if(i > 14){
       iterations = (int) pow(2, (30-i));
       outer = (int)pow(2,16)/iterations;
@@ -61,7 +62,7 @@ int main(int argc, char * argv[]){
     }*/
     //else{
       iterations = (int)pow(2.0,(double)i/10);
-     //cout << iterations;
+     //acout << iterations;
      if(i < 190){
      	outer = 1024*1024/iterations;
      }
@@ -71,6 +72,9 @@ int main(int argc, char * argv[]){
       //cout << endt - startt << endl;
       //int * array = new int[(int)pow(2,30)];
       int index = 0;
+      if(k && i >= 200){
+	iterations = 1024*1024;
+      }
       for(int j = 0; j < iterations; j++){
         int value;
        //int * array = new int[(int) pow(2,i)];
@@ -85,6 +89,8 @@ int main(int argc, char * argv[]){
 	  sum += (end - start);
 	  //cout << end2 - start2 << " " << end - start << endl;
 	  //cout << (end - start) - (end2 - start2) << endl;
+	  //cout << (end - start) << endl;
+	  div++;
 	}
         /*else{
           cout << "time is: " << end - start << endl;
@@ -101,11 +107,11 @@ int main(int argc, char * argv[]){
       }
       //delete[] array;
     }
-    long double average = (double)sum/((outer-1)*iterations);
+    long double average = (double)sum/div;
     //average = (double)(average/2.3*1024*1024*1024);
     //cout << "sum is: " << sum << " ";
     //cout << "size of jump is: "<< (int)pow(2,i+2) << " and avg is: " << average << endl;
-    //cout << "i: " << i << " average: " << average << endl;
+    //cout << "i: " << i << " average: " << average << " sum: " << sum << " divisor: " << div << "projected divisor: " << iterations*(outer-1) <<  endl;
     cout << average - 44 << endl;
     //cout << (int)pow(2,i) << "\t";
     delete[] array;
