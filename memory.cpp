@@ -7,10 +7,12 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
 
-uint64_t startt, endt, duration;
+uint64_t startt, endt;
 unsigned int high, low, id;
 
 static inline uint64_t start_timer(){
@@ -37,41 +39,57 @@ static inline uint64_t end_timer(){
 
 int main(int argc, char * argv[]){
   int value;
-  for(int i = 0; i < 300; i++){
+  cpu_set_t set;
+  start_timer();
+  end_timer();
+  start_timer();
+  end_timer();
+  sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
+  for(int i = 0; i < 260; i++){
     uint64_t startt = start_timer();
-    //int * array = new int[(int)pow(2, 30)];
+    int * array = new int[(int)pow(2, 30)];
     //int * count = new int[5000];
     uint64_t endt = end_timer();
     //int index = 0;
-    long sum = 0;
+    long double sum = 0;
     int iterations;
     int outer;
-    if(i > 100){
-      iterations = (int) pow(2, (30-(double)i/10));
-      outer = (int)pow(2,20)/iterations;
+    /*if(i > 14){
+      iterations = (int) pow(2, (30-i));
+      outer = (int)pow(2,16)/iterations;
       //cout << "iterations: " << iterations << "outer: " << outer << endl;
-    }
-    else{
-      iterations = (int)pow(2,20);
-      outer = 1;
-    }
+    }*/
+    //else{
+      iterations = (int)pow(2.0,(double)i/10);
+     //cout << iterations;
+     if(i < 190){
+     	outer = 1024*1024/iterations;
+     }
+     else{ outer = 2; }
+    //}
     for(int k = 0; k < outer; k++){
       //cout << endt - startt << endl;
-      int * array = new int[(int)pow(2,30)];
+      //int * array = new int[(int)pow(2,30)];
       int index = 0;
       for(int j = 0; j < iterations; j++){
         int value;
-        //int * array = new int[(int) pow(2,i)];
+       //int * array = new int[(int) pow(2,i)];
         uint64_t start = start_timer();
-        value = array[index];
+	//high_resolution_clock::time_point start = high_resolution_clock::now();
+        value = array[0];
+	//high_resolution_clock::time_point end = high_resolution_clock::now();
         uint64_t end = end_timer();
-        if(j){
-          sum += (end - start);
-        }
+	if(k){
+	  //duration<double> time_span = duration_cast<duration<double>>(end-start);
+          //sum += time_span.count();
+	  sum += (end - start);
+	  //cout << end2 - start2 << " " << end - start << endl;
+	  //cout << (end - start) - (end2 - start2) << endl;
+	}
         /*else{
           cout << "time is: " << end - start << endl;
         }*/
-        index += (int)pow(2, (double)i/10);
+        index += (int)pow(2, 4);
         //cout << "i: " << i << " and " << end - start << endl;
       
       
@@ -81,14 +99,16 @@ int main(int argc, char * argv[]){
         //cout << "index is: " << random << endl;
         //delete[] array;
       }
-      delete[] array;
+      //delete[] array;
     }
-    int average = sum/(outer *(iterations-1));
+    long double average = (double)sum/((outer-1)*iterations);
+    //average = (double)(average/2.3*1024*1024*1024);
     //cout << "sum is: " << sum << " ";
     //cout << "size of jump is: "<< (int)pow(2,i+2) << " and avg is: " << average << endl;
-    cout << average << endl;
+    //cout << "i: " << i << " average: " << average << endl;
+    cout << average - 44 << endl;
     //cout << (int)pow(2,i) << "\t";
-    //delete[] array;
+    delete[] array;
  }
   
   return 0;
