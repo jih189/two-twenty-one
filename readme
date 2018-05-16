@@ -1,22 +1,4 @@
-To run, type:
-     chmod 777 run.x
-     ./run.x #1 #2
-     
-#1 is an int between 1 ~ 7, representing:
-1: reading measurement
-2: procedure call measurement
-3: system call measurement
-4: process creation measurement
-5: kernal thread creation measurement
-6: process context switch measurement
-7: kernal thread context switch measurement
+type "make" for compile
+type "./test 0" for testing reading
+type "./test 1" for testing writing 
 
-
-#2 is an int between 0 ~ 7, representing the number of parameters to pass when #1==2
-
-Outputs are saved in .rst file accordingly, with each number representing the number of cycles for each operation.
-
-
-E.g.,
-./run.x 1   // measure the reading
-./run.x 2 5 // measure procedure call with 5 parameter passing
