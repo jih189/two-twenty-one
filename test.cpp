@@ -23,7 +23,7 @@ static uint64_t startt, endt, duration;
 unsigned int high, low, id;
 //unsigned long flags;
 //struct sched_param params;
-const size_t N = 1000;
+const size_t N = 10000;
 uint64_t durations[N];
 
 
@@ -501,15 +501,14 @@ void process_ctxswitch_measure(){
 
 
 
-
+pthread_barrier_t barr ;
 
 void* t1_fn(void* some){
 
+     pthread_mutex_lock(&mut); // lock thread
+
 for(int i =0; i < N; i++){
 
-     // cout << " t1 1" << endl;
-     pthread_mutex_lock(&mut); // lock thread
-     // cout << " t1: before signal 1 " << endl;
      while (cond_x == 0 ) {
           cond_x = 1;
           pthread_cond_signal(&cond); // signal 1 - let t2 goes synchronized
@@ -517,26 +516,37 @@ for(int i =0; i < N; i++){
      }
 
      // receive signal 2
+     // 22222
      startt = start_timer();
      pthread_cond_signal(&cond);  // sendt t2 that timer has startt - signal 3
      pthread_cond_wait(&cond, &mut); // wait for t2 until signal 4
 
-
-     endt = end_timer();      
+     // 44444
+     // receive signal 4, timer stopped by another thread      
      durations[i] = (uint64_t) ((endt - startt)/2);
+     if (i == (N-1)) {
+          cond_x = 3; // stop at the last loop
+     } else {
+          cond_x = 0; // continue next loop
+     }
+     pthread_cond_signal(&cond); // send signal 5, next loop
      // duration = endt - startt;
      //cout << (duration/2) << endl; // two context switches
-     pthread_mutex_unlock(&mut);
+     
      // cout << " fn 1 : iter " << i << endl;
+     // pthread_mutex_unlock(&mut);
+     // pthread_barrier_wait(&barr) ;
 };
 
-cond_x = 3;
+     pthread_mutex_unlock(&mut);
+     pthread_cond_signal(&cond);
 
 for(int i =0; i < N; i++){
      cout << durations[i] << endl;
 };
 
      pthread_exit(NULL);
+     // pthread_detach(pthread_self());
 };
 
 
@@ -545,29 +555,38 @@ for(int i =0; i < N; i++){
 void* t2_fn(void* some){
 
 // for(int i =0; i < N; i++){
+     int i =0;
+     pthread_mutex_lock(&mut);
+
 while(cond_x !=3){
      // cout << " t2 1" << endl;
-     pthread_mutex_lock(&mut);
+     
      while (cond_x != 1 ){
           pthread_cond_wait(&cond, &mut); // wait t1 for signal 1
      }
 
-
+     // 11111
      cond_x == 2 ;
      pthread_cond_signal(&cond); // know t1 is ready. t1 start timer please - signal 2 
      pthread_cond_wait(&cond, &mut); // wait t1 signal 3
 
 
-     //cond_x++;
-     cond_x == 0 ;
-     pthread_cond_signal(&cond); // inform t1 to end timer - signal 4 //
-     pthread_mutex_unlock(&mut);          
-     
+     // 33333
+     endt = end_timer(); // stop timer
+     pthread_cond_signal(&cond); // inform t1 the timer is stopped - signal 4 //
+     pthread_cond_wait(&cond, &mut); // wait t1 signal 5 about the condition_x
 
-     // cout << " fn 2 : iter " << i << endl;
+     // cout << " fn 2 : iter " << i++ << endl;
+     // pthread_mutex_unlock(&mut);
+
+     // pthread_barrier_wait(&barr) ;
+
 };
-     
+     pthread_mutex_unlock(&mut); 
+     pthread_cond_signal(&cond);
+
      pthread_exit(NULL);
+     // pthread_detach(pthread_self());
 };
 
 
@@ -579,6 +598,7 @@ void pthread_ctxswitch_measure(){
      pthread_t t1, t2; 
 
      int rc;
+     pthread_barrier_init(&barr, NULL, 2);
      //cout << " create thread 1" << endl;
      pthread_create(&t1 , NULL, &t1_fn, NULL);
      //  if (rc) {
@@ -594,7 +614,7 @@ void pthread_ctxswitch_measure(){
      //  }     
      pthread_join(t1, NULL);
      pthread_join(t2, NULL);
-     //pthread_exit(NULL);  
+     pthread_exit(NULL);  
 }
 
 
