@@ -1,4 +1,4 @@
-writing bandwidth is: 8.49246e+09
-overhead of writing to main memory : 14
-reading bandwidth is: 3.83956e+09
-overhead of reading from main memory : 32
+writing bandwidth is: 4.80468e+09
+overhead of writing to main memory : 25
+reading bandwidth is: 4.15199e+09
+overhead of reading from main memory : 29
