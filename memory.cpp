@@ -47,7 +47,7 @@ int main(int argc, char * argv[]){
   sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
   for(int i = 0; i < 240; i++){
     uint64_t startt = start_timer();
-    int * array = new int[(int)pow(2, 40)];
+    int * array = new int[(int)pow(2, 30)];
     //int * count = new int[5000];
     uint64_t endt = end_timer();
     //int index = 0;
@@ -112,7 +112,7 @@ int main(int argc, char * argv[]){
     //cout << "sum is: " << sum << " ";
     //cout << "size of jump is: "<< (int)pow(2,i+2) << " and avg is: " << average << endl;
     //cout << "i: " << i << " average: " << average << " sum: " << sum << " divisor: " << div << "projected divisor: " << iterations*(outer-1) <<  endl;
-    cout << average - 44 << endl;
+    cout << average - 30 << endl;
     //cout << (int)pow(2,i) << "\t";
     delete[] array;
  }
