@@ -37,9 +37,9 @@ int main(int argc, char *argv[]){
     uint64_t offset = 16;
     // create a memory on heap
 //    if(argv[1][0] == '0'){
-    int *mem1 = new int[(int)pow(2, 30)];
+    int *mem1 = new int[(int)pow(2,30)];
     int index = 0;
-    for(int i = 0; i < (int)pow(2,24); i++){
+    for(int i = 0; i < (int)pow(2,26); i++){
        mem1[index] = 0;
        index += 16;
     }
