@@ -34,14 +34,14 @@ static inline uint64_t end_timer(){
 }
 
 int main(int argc, char *argv[]){
-    uint64_t offset = 16;
+    uint64_t offset = 1024*512;
     // create a memory on heap
 //    if(argv[1][0] == '0'){
     int *mem1 = new int[(int)pow(2,30)];
     int index = 0;
-    for(int i = 0; i < (int)pow(2,26); i++){
+    for(int i = 0; i < (int)pow(2,11); i++){
        mem1[index] = 0;
-       index += 16;
+       index += 1024*512;
     }
     uint64_t start1, end1;
     start1 = start_timer();
@@ -107,9 +107,9 @@ int main(int argc, char *argv[]){
     int in;
     int *mem = new int[(int)pow(2, 30)];
     index = 0;
-    for(int i = 0; i < (int)pow(2,26); i++){
+    for(int i = 0; i < (int)pow(2,11); i++){
        mem[index] = 0;
-       index += 16;
+       index += 1024*512;
     } 
     start = start_timer();
     in = mem[0+1];
