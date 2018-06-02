@@ -168,7 +168,18 @@ void read_measure(){
      //cout << duration << endl;
 };
 
-
+void loop_measure(int loops){
+	for(int i = 0; i < N; i++){
+		startt = start_timer();
+		for(int j = 0; j < loops; j++){
+		}
+		endt = end_timer();
+	        durations[i] = endt - startt;
+	}
+	for(int i = 0; i < N; i++){
+		cout << durations[i] << endl;
+	}
+}
 
 // Procedure call measurement; looping 1k times
 // void procedure_measure(const char* count ){
@@ -661,8 +672,14 @@ int main(int argc, char *argv[]){
                process_ctxswitch_measure();
           } else if ( *argv[1] == '7' ) {
                pthread_ctxswitch_measure();
-          } 
-
+          } else if ( *argv[1] == '8' ){
+	      if (argc == 3){
+	           loop_measure(atoi(argv[2]));
+	      }else{
+	      	   cout << " need more parameters" << endl;
+	      }
+	  } 
+	  
 
      }
      return 0;
