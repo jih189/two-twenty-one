@@ -45,7 +45,11 @@ int main(int argc, char * argv[]){
   start_timer();
   end_timer();
   sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
+<<<<<<< HEAD
   for(int i = 0; i < 190; i++){
+=======
+  for(int i = 0; i < 250; i++){
+>>>>>>> mod_network
     uint64_t startt = start_timer();
     int * array = new int[(int)pow(2, 30)];
     //int * count = new int[5000];
