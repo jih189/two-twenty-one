@@ -1,0 +1,4 @@
+Using "make" to compile all the codes
+
+For part 2 : Memory, bandwidth and pagefault:
+run "memory.x" , "memory_bandwidth.x", "pagefault.x" respecctively.

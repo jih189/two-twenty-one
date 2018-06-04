@@ -1,0 +1,13 @@
+Using "make" to compile all the codes
+
+For part 1 : CPU, SYSTEM, and OS:
+run "./cpu_sys_os.x #1 #2":
+     in which:
+     #1 = 1 : reading measurement
+     (#1 #2) = (2 N) : procedure call measurement wiht N parameters, e.g. "./cpu_sys_os.x 2 5"
+     #1 = 3 : system call measurement
+     #1 = 4 : process creation measurement
+     #1 = 5 : kernel thread creation measurement
+     #1 = 6 : process context switch measurement
+     #1 = 7 : kernel thread context switch measurement
+     #1 = 8 : looping overhead measurement

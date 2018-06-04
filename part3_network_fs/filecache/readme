@@ -1,0 +1,20 @@
+type "make" for compile
+check you main memory size
+type "./mfile #" to create a file with # GB size where # is you main memory size
+then you will get testfile#G.txt
+please rename it to be "testfile#G_1.txt", and copy it as "testfile#G_2.txt"
+so you will have two files "testfile#G_1.txt" and "testfile#G_2.txt"
+go into test.b, and change "testfile8G_1.txt" to "testfile#G_1.txt"
+              , and change "testfile8G_2.txt" to "testfile#G_2.txt"
+              where # is you main memory size
+              , change "for i in {0..4}" to "for i in {0..@}" where @ is # - 1
+              for example, if you main memory size is 8, then change it to "for i in {0..7}"
+type "./test.b" for running the code
+
+then you will get 
+512 MB reading time: 12345
+.
+.
+.
+.
+

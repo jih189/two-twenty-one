@@ -1,0 +1,5 @@
+type "make" for compile
+type "mfile #" which # is size of created file
+    like "mfile 4" will create a 4MB file
+type "seqtest @" where @ is the file name, for sequential read
+type "rantest @" where @ is the file name, for random read
