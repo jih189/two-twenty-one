@@ -85,7 +85,7 @@ int main(int argc, char * argv[]){
     //cout << "sum is: " << sum << " ";
     //cout << "size of jump is: "<< (int)pow(2,i+2) << " and avg is: " << average << endl;
     //cout << "i: " << i << " average: " << average << " sum: " << sum << " divisor: " << div << "projected divisor: " << iterations*(outer-1) <<  endl;
-    cout << average - 40 << endl;
+    cout << average - 37 << endl;
     //cout << (int)pow(2,i) << "\t";
     delete[] array;
   }
