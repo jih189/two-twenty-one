@@ -1,10 +1,10 @@
 #include <iostream>
-#include <stdio.h>      /* for printf() and fprintf() */
-#include <sys/socket.h> /* for socket(), bind(), and connect() */
-#include <arpa/inet.h>  /* for sockaddr_in and inet_ntoa() */
-#include <stdlib.h>     /* for atoi() and exit() */
-#include <string.h>     /* for memset() */
-#include <unistd.h>     /* for close() */
+#include <stdio.h>     
+#include <sys/socket.h> 
+#include <arpa/inet.h>  
+#include <stdlib.h> 
+#include <string.h> 
+#include <unistd.h> 
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -19,7 +19,7 @@ int main(int argc, char * argv[]){
   int port = atoi(argv[1]);
   int size = atoi(argv[2]);
 
-  cout << "0" << endl;
+  //cout << "0" << endl;
   if((servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0){
     perror("failed to create socket");
     return 1;
@@ -72,7 +72,7 @@ int main(int argc, char * argv[]){
           totalRead -= size;
         }
       }
-      cout << "after send" << endl;
+      //cout << "after send" << endl;
       //memset(buffer, 0, sizeof(buffer));
       if((valread = read(clntSock, buffer, size)) < 0){
         perror("nothing to read");
