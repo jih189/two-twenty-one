@@ -1,4 +1,10 @@
-writing bandwidth is: 5.29504e+09
-overhead of writing to main memory : 23
-reading bandwidth is: 2.42308e+09
-overhead of reading from main memory : 50
+avg read bandwidth is: 1.6486e+08
+avg write bandwidth is: 1.74852e+08
+avg read bandwidth is: 1.54939e+08
+avg write bandwidth is: 1.68746e+08
+avg read bandwidth is: 1.58761e+08
+avg write bandwidth is: 1.78978e+08
+avg read bandwidth is: 1.6196e+08
+avg write bandwidth is: 1.72057e+08
+avg read bandwidth is: 1.65478e+08
+avg write bandwidth is: 1.69855e+08

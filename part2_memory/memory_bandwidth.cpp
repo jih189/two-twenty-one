@@ -12,92 +12,92 @@ using namespace std;
 unsigned int high, low, id;
 #define L3CACHSIZE 4194304 
 static inline uint64_t start_timer(){
-	__asm__ volatile( "cpuid \n\t"
-			"rdtsc \n\t"
-			"mov %%edx, %0 \n\t"
-			"mov %%eax, %1 \n\t"
-			: "=r"(high), "=r"(low)
-			:: "%rax", "%rbx", "%rcx", "%rdx"
-			);
-	return ((uint64_t)high <<32) | low;
+     __asm__ volatile( "cpuid \n\t"
+               "rdtsc \n\t"
+               "mov %%edx, %0 \n\t"
+               "mov %%eax, %1 \n\t"
+               : "=r"(high), "=r"(low)
+               :: "%rax", "%rbx", "%rcx", "%rdx"
+               );
+     return ((uint64_t)high <<32) | low;
 }
 static inline uint64_t end_timer(){
-	__asm__ volatile( 
-			"rdtscp \n\t"
-			"mov %%edx, %0 \n\t"
-			"mov %%eax, %1 \n\t"
-			"cpuid \n\t"
-			: "=r"(high), "=r"(low)
-			:: "%rax", "%rbx", "rcx", "%rdx"
-			);
-	return ((uint64_t)high <<32) | low;
+     __asm__ volatile( 
+               "rdtscp \n\t"
+               "mov %%edx, %0 \n\t"
+               "mov %%eax, %1 \n\t"
+               "cpuid \n\t"
+               : "=r"(high), "=r"(low)
+               :: "%rax", "%rbx", "rcx", "%rdx"
+               );
+     return ((uint64_t)high <<32) | low;
 }
 
 int main(int argc, char *argv[]){
-	double read_delay = 0;
-	double write_delay = 0;
-	for(int j = 0; j < 100; j++){
-		uint64_t offset = 1024*512;
-		// create a memory on heap
-		//    if(argv[1][0] == '0'){
-		int *mem1 = new int[(int)pow(2,30)];
-		int index = 0;
-		for(int i = 0; i < (int)pow(2,11); i++){
-			mem1[index] = 0;
-			index += 1024*512;
-		}
-		uint64_t start1, end1;
-		start1 = start_timer();
-		mem1[0] = 6;
-		mem1[offset] = 6;
-		mem1[2*offset] = 6;
-		mem1[3*offset] = 6;
-		mem1[4*offset] = 6;
-		mem1[5*offset] = 6;
-		mem1[6*offset] = 6;
-		mem1[7*offset] = 6;
-		mem1[8*offset] = 6;
-		mem1[9*offset] = 6;
-		mem1[10*offset] = 6;
-		mem1[11*offset] = 6;
-		mem1[12*offset] = 6;
-		mem1[13*offset] = 6;
-		mem1[14*offset] = 6;
-		mem1[15*offset] = 6;
-		mem1[16*offset] = 6;
-		mem1[17*offset] = 6;
-		mem1[18*offset] = 6;
-		mem1[19*offset] = 6;
-		mem1[20*offset] = 6;
-		mem1[21*offset] = 6;
-		mem1[22*offset] = 6;
-		mem1[23*offset] = 6;
-		mem1[24*offset] = 6;
-		mem1[25*offset] = 6;
-		mem1[26*offset] = 6;
-		mem1[27*offset] = 6;
-		mem1[28*offset] = 6;
-		mem1[29*offset] = 6;
-		mem1[30*offset] = 6;
-		mem1[31*offset] = 6;
-		mem1[32*offset] = 6;
-		mem1[33*offset] = 6;
-		mem1[34*offset] = 6;
-		mem1[35*offset] = 6;
-		mem1[36*offset] = 6;
-		mem1[37*offset] = 6;
-		mem1[38*offset] = 6;
-		mem1[39*offset] = 6;
-		mem1[40*offset] = 6;
-		mem1[41*offset] = 6;
-		mem1[42*offset] = 6;
-		mem1[43*offset] = 6;
-		mem1[44*offset] = 6;
-		mem1[45*offset] = 6;
-		mem1[46*offset] = 6;
-		mem1[47*offset] = 6;
-		mem1[48*offset] = 6;
-		mem1[49*offset] = 6;
+     double read_delay = 0;
+     double write_delay = 0;
+     for(int j = 0; j < 100; j++){
+          uint64_t offset = 1024*512;
+          // create a memory on heap
+          //    if(argv[1][0] == '0'){
+          int *mem1 = new int[(int)pow(2,30)];
+          int index = 0;
+          for(int i = 0; i < (int)pow(2,11); i++){
+               mem1[index] = 0;
+               index += 1024*512;
+          }
+          uint64_t start1, end1;
+          start1 = start_timer();
+          mem1[0] = 6;
+          mem1[offset] = 6;
+          mem1[2*offset] = 6;
+          mem1[3*offset] = 6;
+          mem1[4*offset] = 6;
+          mem1[5*offset] = 6;
+          mem1[6*offset] = 6;
+          mem1[7*offset] = 6;
+          mem1[8*offset] = 6;
+          mem1[9*offset] = 6;
+          mem1[10*offset] = 6;
+          mem1[11*offset] = 6;
+          mem1[12*offset] = 6;
+          mem1[13*offset] = 6;
+          mem1[14*offset] = 6;
+          mem1[15*offset] = 6;
+          mem1[16*offset] = 6;
+          mem1[17*offset] = 6;
+          mem1[18*offset] = 6;
+          mem1[19*offset] = 6;
+          mem1[20*offset] = 6;
+          mem1[21*offset] = 6;
+          mem1[22*offset] = 6;
+          mem1[23*offset] = 6;
+          mem1[24*offset] = 6;
+          mem1[25*offset] = 6;
+          mem1[26*offset] = 6;
+          mem1[27*offset] = 6;
+          mem1[28*offset] = 6;
+          mem1[29*offset] = 6;
+          mem1[30*offset] = 6;
+          mem1[31*offset] = 6;
+          mem1[32*offset] = 6;
+          mem1[33*offset] = 6;
+          mem1[34*offset] = 6;
+          mem1[35*offset] = 6;
+          mem1[36*offset] = 6;
+          mem1[37*offset] = 6;
+          mem1[38*offset] = 6;
+          mem1[39*offset] = 6;
+          mem1[40*offset] = 6;
+          mem1[41*offset] = 6;
+          mem1[42*offset] = 6;
+          mem1[43*offset] = 6;
+          mem1[44*offset] = 6;
+          mem1[45*offset] = 6;
+          mem1[46*offset] = 6;
+          mem1[47*offset] = 6;
+          mem1[48*offset] = 6;
+          mem1[49*offset] = 6;
                 mem1[50*offset] = 6;
                 mem1[51*offset] = 6;
                 mem1[52*offset] = 6;
@@ -148,7 +148,7 @@ int main(int argc, char *argv[]){
                 mem1[97*offset] = 6;
                 mem1[98*offset] = 6;
                 mem1[99*offset] = 6;                
-		mem1[100*offset] = 6;
+                mem1[100*offset] = 6;
                 mem1[101*offset] = 6;
                 mem1[102*offset] = 6;
                 mem1[103*offset] = 6;
@@ -548,71 +548,71 @@ int main(int argc, char *argv[]){
                 mem1[497*offset] = 6;
                 mem1[498*offset] = 6;
                 mem1[499*offset] = 6;
-		end1 = end_timer();
-		double cycles = end1 - start1;
-		double seconds = cycles/(2.8*1024*1024*1024);
-		write_delay += seconds;
-		delete mem1;
-		//    }else{
-		uint64_t start, end;
-		int in;
-		int *mem = new int[(int)pow(2, 30)];
-		index = 0;
-		for(int i = 0; i < (int)pow(2,11); i++){
-			mem[index] = 0;
-			index += 1024*512;
-		} 
-		start = start_timer();
-		in = mem[0+1];
-		in = mem[offset+1];
-		in = mem[2*offset+1];
-		in = mem[3*offset+1];
-		in = mem[4*offset+1];
-		in = mem[5*offset+1];
-		in = mem[6*offset+1];
-		in = mem[7*offset+1];
-		in = mem[8*offset+1];
-		in = mem[9*offset+1];
-		in = mem[10*offset+1];
-		in = mem[11*offset+1];
-		in = mem[12*offset+1];
-		in = mem[13*offset+1];
-		in = mem[14*offset+1];
-		in = mem[15*offset+1];
-		in = mem[16*offset+1];
-		in = mem[17*offset+1];
-		in = mem[18*offset+1];
-		in = mem[19*offset+1];
-		in = mem[20*offset+1];
-		in = mem[21*offset+1];
-		in = mem[22*offset+1];
-		in = mem[23*offset+1];
-		in = mem[24*offset+1];
-		in = mem[25*offset+1];
-		in = mem[26*offset+1];
-		in = mem[27*offset+1];
-		in = mem[28*offset+1];
-		in = mem[29*offset+1];
-		in = mem[30*offset+1];
-		in = mem[31*offset+1];
-		in = mem[32*offset+1];
-		in = mem[33*offset+1];
-		in = mem[34*offset+1];
-		in = mem[35*offset+1];
-		in = mem[36*offset+1];
-		in = mem[37*offset+1];
-		in = mem[38*offset+1];
-		in = mem[39*offset+1];
-		in = mem[40*offset+1];
-		in = mem[41*offset+1];
-		in = mem[42*offset+1];
-		in = mem[43*offset+1];
-		in = mem[44*offset+1];
-		in = mem[45*offset+1];
-		in = mem[46*offset+1];
-		in = mem[47*offset+1];
-		in = mem[48*offset+1];
-		in = mem[49*offset+1];
+          end1 = end_timer();
+          double cycles = end1 - start1;
+          double seconds = cycles/(2.8*1024*1024*1024);
+          write_delay += seconds;
+          delete mem1;
+          //    }else{
+          uint64_t start, end;
+          int in;
+          int *mem = new int[(int)pow(2, 30)];
+          index = 0;
+          for(int i = 0; i < (int)pow(2,11); i++){
+               mem[index] = 0;
+               index += 1024*512;
+          } 
+          start = start_timer();
+          in = mem[0+1];
+          in = mem[offset+1];
+          in = mem[2*offset+1];
+          in = mem[3*offset+1];
+          in = mem[4*offset+1];
+          in = mem[5*offset+1];
+          in = mem[6*offset+1];
+          in = mem[7*offset+1];
+          in = mem[8*offset+1];
+          in = mem[9*offset+1];
+          in = mem[10*offset+1];
+          in = mem[11*offset+1];
+          in = mem[12*offset+1];
+          in = mem[13*offset+1];
+          in = mem[14*offset+1];
+          in = mem[15*offset+1];
+          in = mem[16*offset+1];
+          in = mem[17*offset+1];
+          in = mem[18*offset+1];
+          in = mem[19*offset+1];
+          in = mem[20*offset+1];
+          in = mem[21*offset+1];
+          in = mem[22*offset+1];
+          in = mem[23*offset+1];
+          in = mem[24*offset+1];
+          in = mem[25*offset+1];
+          in = mem[26*offset+1];
+          in = mem[27*offset+1];
+          in = mem[28*offset+1];
+          in = mem[29*offset+1];
+          in = mem[30*offset+1];
+          in = mem[31*offset+1];
+          in = mem[32*offset+1];
+          in = mem[33*offset+1];
+          in = mem[34*offset+1];
+          in = mem[35*offset+1];
+          in = mem[36*offset+1];
+          in = mem[37*offset+1];
+          in = mem[38*offset+1];
+          in = mem[39*offset+1];
+          in = mem[40*offset+1];
+          in = mem[41*offset+1];
+          in = mem[42*offset+1];
+          in = mem[43*offset+1];
+          in = mem[44*offset+1];
+          in = mem[45*offset+1];
+          in = mem[46*offset+1];
+          in = mem[47*offset+1];
+          in = mem[48*offset+1];
+          in = mem[49*offset+1];
                 in = mem[50*offset+1];
                 in = mem[51*offset+1];
                 in = mem[52*offset+1];
@@ -1063,16 +1063,16 @@ int main(int argc, char *argv[]){
                 in = mem[497*offset+1];
                 in = mem[498*offset+1];
                 in = mem[499*offset+1];
-		end = end_timer();
-		cycles = (double)(end-start);
-		seconds = (double)cycles/(2.8*1024*1024*1024);
-		read_delay += seconds; 
-		delete mem;
-	}
-	double avg_write = (double)50000.0*4.0/write_delay;
-	double avg_read = (double)50000.0*4.0/read_delay;
-	std::cout << "avg read bandwidth is: " << avg_read << endl;
-	std::cout << "avg write bandwidth is: " << avg_write << endl;
-	//    }
-	return 0; 
+          end = end_timer();
+          cycles = (double)(end-start);
+          seconds = (double)cycles/(2.8*1024*1024*1024);
+          read_delay += seconds; 
+          delete mem;
+     }
+     double avg_write = (double)50000.0*4.0/write_delay;
+     double avg_read = (double)50000.0*4.0/read_delay;
+     std::cout << "avg read bandwidth is: " << avg_read << endl;
+     std::cout << "avg write bandwidth is: " << avg_write << endl;
+     //    }
+     return 0; 
 }

@@ -23,7 +23,7 @@ const int BLOCKSIZE=64;
 uint64_t startt, endt;
 unsigned int high, low, id;
 
-const size_t N = 10;
+const size_t N = 1;
 uint64_t durations[N];
 
 static inline uint64_t start_timer(){
