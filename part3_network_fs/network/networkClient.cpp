@@ -47,12 +47,18 @@ int main(int argc, char * argv[]){
   int servSock;
   int clntSock;
   char * message = (char *)"1";
+  char * buffer2;
   char buffer[1024] = {0};
   uint64_t totalRT = 0;
   uint64_t totalSetup = 0;
   uint64_t totalTear = 0;
   double totalBand = 0;
   double totalBandRec = 0;
+
+  int test_limit = 1024;
+  if(argc > 3) test_limit = atoi(argv[3]);
+
+  buffer2 = new char[test_limit];
 
   for(int i = 0; i < 100; i++){
     if((clntSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0){
@@ -65,7 +71,7 @@ int main(int argc, char * argv[]){
     servAddr.sin_family = AF_INET;
     servAddr.sin_port = htons(port);
 
-    if(inet_pton(AF_INET, "127.0.0.1", &servAddr.sin_addr) <= 0){
+    if(inet_pton(AF_INET, argv[2], &servAddr.sin_addr) <= 0){
       cout << "conversion failed" << endl;
       return 1;
     }
@@ -83,16 +89,20 @@ int main(int argc, char * argv[]){
     totalRT += (end - start);
 
     string message2 = "";
-    for(int i = 0; i < 1024; i++){
+    for(int i = 0; i < test_limit; i++){
       message2 += 'a';
     }
     const char * message3 = message2.c_str();
+    memset(buffer2, 0, sizeof(buffer2));
     uint64_t startBand = start_timer();
     send(clntSock, message3, strlen(message3), 0);
     valread = read(clntSock, buffer, 1024);
+    while(valread < test_limit){
+      valread += read(clntSock, buffer2, test_limit);
+    }
     uint64_t endBand = end_timer();
 
-    double bandRec = (double)(endBand - startBand)/1024;
+    double bandRec = (double)(endBand - startBand);
     totalBandRec += bandRec;
     
     uint64_t startTear = start_timer();
@@ -100,8 +110,5 @@ int main(int argc, char * argv[]){
     uint64_t endTear = end_timer();
     totalTear += (endTear - startTear);
   }
-  cout << "Average bandwidth is: " << (double)100/(totalBandRec) << endl;
-  cout << "Average setup time is: " << (double)totalSetup/100 << endl;
-  cout << "Average teardown time is: " << (double)totalTear/100 << endl;
-  cout << "Average round-trip is: " << (double)totalRT/100 << endl;
+  cout << test_limit << " " << (double) 100*test_limit/(totalBandRec) << " " << (double) totalSetup/100 << " " << (double)totalTear/100 << " " << (double) totalRT/100 << endl;
 }
