@@ -63,7 +63,7 @@ int main(int argc, char * argv[]){
     //cout << "iterations: " << iterations << "outer: " << outer << endl;
     }*/
     //else{
-    outer = 1024;
+    outer = 512;
     iterations = 2048;
     //acout << iterations;
     //}
@@ -104,8 +104,8 @@ int main(int argc, char * argv[]){
     //cout << "iterations: " << iterations << "outer: " << outer << endl;
     }*/
     //else{
-    outer = 1024;
-    iterations = 1024;
+    outer = 512;
+    iterations = 4096;
     //acout << iterations;
     //}
     for(int k = 0; k < outer; k++){
