@@ -29,9 +29,13 @@ speed: 2400 MHz
      command: wmic memorychip get speed 
 total width/data width: 64bits
 form factor: SODIMM
+(wmic MEMORYCHIP get DataWidth,Speed)
 
-I/O  x2
-width: 64K
+
+
+I/O  82801 Mobile SATA controller
+width: 32-bits
+66MHz
 
 
 Hard disk
